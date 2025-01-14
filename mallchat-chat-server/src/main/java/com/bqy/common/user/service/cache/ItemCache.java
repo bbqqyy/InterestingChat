@@ -15,12 +15,17 @@ public class ItemCache {
     @Resource
     private ItemConfigDao itemConfigDao;
 
-    @Cacheable(cacheNames = "item",key = "'itemsByType'+#itemType")
+    @Cacheable(cacheNames = "item",key = "'itemsByType:'+#itemType")
     public List<ItemConfig> getByType(Integer itemType) {
         return itemConfigDao.getVaildItemByType(itemType);
     }
 
-    @CacheEvict(cacheNames = "item",key = "'itemsByType'+#itemType")
+    @Cacheable(cacheNames = "item",key = "'item:'+#itemId")
+    public ItemConfig getById(Long itemId){
+        return itemConfigDao.getById(itemId);
+    }
+
+    @CacheEvict(cacheNames = "item",key = "'itemsByType:'+#itemType")
     public void evictByType(Integer itemType) {
 
     }

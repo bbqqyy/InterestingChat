@@ -1,15 +1,13 @@
 package com.bqy.common.user.controller;
 
 
-import com.bqy.common.common.annotation.RedissonLock;
+import com.bqy.common.user.domain.dto.ItemInfoDTO;
+import com.bqy.common.user.domain.dto.SummeryInfoDTO;
 import com.bqy.common.common.domain.vo.resp.ApiResult;
-import com.bqy.common.common.interceptor.TokenInterceptor;
 import com.bqy.common.common.utils.AssertUtil;
 import com.bqy.common.common.utils.RequestHolder;
 import com.bqy.common.user.domain.enums.RoleEnum;
-import com.bqy.common.user.domain.vo.req.BlackReq;
-import com.bqy.common.user.domain.vo.req.ModifyNameReq;
-import com.bqy.common.user.domain.vo.req.WearBadgeReq;
+import com.bqy.common.user.domain.vo.req.*;
 import com.bqy.common.user.domain.vo.resp.BadgeResp;
 import com.bqy.common.user.domain.vo.resp.UserInfoResp;
 import com.bqy.common.user.service.IRoleService;
@@ -18,11 +16,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
-import org.springframework.stereotype.Controller;
-
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -48,7 +42,15 @@ public class UserController {
     public ApiResult<UserInfoResp> getUserInfo() {
         return ApiResult.success(userService.getUserInfo(RequestHolder.get().getUid()));
     }
+    @PostMapping("/public/summery/userInfo/batch")
+    public ApiResult<List<SummeryInfoDTO>> getSummeryInfo(@Valid @RequestBody SummeryInfoReq req){
+        return ApiResult.success(userService.getSummeryInfo(req));
+    }
 
+    @PostMapping("/public/badges/batch")
+    public ApiResult<List<ItemInfoDTO>> getItemInfo(@Valid @RequestBody ItemInfoReq req){
+        return ApiResult.success(userService.getItemInfo(req));
+    }
     @PutMapping("/modifyName")
     public ApiResult<Void> modifyName(@Valid @RequestBody ModifyNameReq req) {
         userService.modifyName(RequestHolder.get().getUid(), req.getName());
@@ -74,6 +76,7 @@ public class UserController {
         userService.blackUser(blackReq);
         return ApiResult.success();
     }
+
 
 
 }

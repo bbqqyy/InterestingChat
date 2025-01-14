@@ -1,13 +1,15 @@
 package com.bqy.common.websocket.service.adapter;
 
+import com.bqy.common.chat.domain.dto.ChatMsgMarkDTO;
+import com.bqy.common.common.domain.dto.ChatMsgRecallDTO;
 import com.bqy.common.common.domain.enums.YesOrNoEnum;
 import com.bqy.common.user.domain.entity.User;
 import com.bqy.common.websocket.domain.enums.WSRespTypeEnum;
-import com.bqy.common.websocket.domain.vo.resp.WSBaseResp;
-import com.bqy.common.websocket.domain.vo.resp.WSBlack;
-import com.bqy.common.websocket.domain.vo.resp.WSLoginSuccess;
-import com.bqy.common.websocket.domain.vo.resp.WSLoginUrl;
+import com.bqy.common.websocket.domain.vo.resp.*;
 import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
+import org.springframework.beans.BeanUtils;
+
+import java.util.Collections;
 
 public class WebSocketAdapter {
     public static WSBaseResp<?> buildResp(WxMpQrCodeTicket wxMpQrCodeTicket) {
@@ -50,6 +52,34 @@ public class WebSocketAdapter {
                 .uid(user.getId())
                 .build();
         wsBaseResp.setData(wsBlack);
+        return wsBaseResp;
+    }
+
+    public static WSBaseResp<?> buildApplySend(WSFriendApply wsFriendApply) {
+        WSBaseResp<WSFriendApply> wsBaseResp = new WSBaseResp<>();
+        wsBaseResp.setType(WSRespTypeEnum.APPLY.getType());
+        wsBaseResp.setData(wsFriendApply);
+        return wsBaseResp;
+    }
+
+    public static WSBaseResp<?> buildMsgRecall(ChatMsgRecallDTO chatMsgRecallDTO) {
+        WSBaseResp<WSMsgRecall> wsBaseResp = new WSBaseResp<>();
+        wsBaseResp.setType(WSRespTypeEnum.RECALL.getType());
+        WSMsgRecall recall = new WSMsgRecall();
+        BeanUtils.copyProperties(chatMsgRecallDTO,recall);
+        wsBaseResp.setData(recall);
+        return wsBaseResp;
+    }
+
+    public static WSBaseResp<?> buildMsgMarkSend(ChatMsgMarkDTO chatMsgMarkDTO, Integer markCount) {
+        WSMsgMark.WSMsgMarkItem item = new WSMsgMark.WSMsgMarkItem();
+        BeanUtils.copyProperties(chatMsgMarkDTO,item);
+        item.setMarkCount(markCount);
+        WSBaseResp<WSMsgMark> wsBaseResp = new WSBaseResp<>();
+        wsBaseResp.setType(WSRespTypeEnum.MARK.getType());
+        WSMsgMark wsMsgMark = new WSMsgMark();
+        wsMsgMark.setMarkList(Collections.singletonList(item));
+        wsBaseResp.setData(wsMsgMark);
         return wsBaseResp;
     }
 }

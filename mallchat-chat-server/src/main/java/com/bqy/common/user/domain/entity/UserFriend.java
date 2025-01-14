@@ -1,10 +1,8 @@
 package com.bqy.common.user.domain.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.*;
+
+import java.util.Date;
 import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -46,19 +44,20 @@ public class UserFriend implements Serializable {
      * 逻辑删除(0-正常,1-删除)
      */
     @TableField("delete_status")
+    @TableLogic(value = "0",delval = "1")
     private Integer deleteStatus;
 
     /**
      * 创建时间
      */
     @TableField("create_time")
-    private LocalDateTime createTime;
+    private Date createTime;
 
     /**
      * 修改时间
      */
     @TableField("update_time")
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
 
 }

@@ -2,7 +2,6 @@ package com.bqy.common.user.dao;
 
 import com.bqy.common.user.domain.entity.ItemConfig;
 import com.bqy.common.user.mapper.ItemConfigMapper;
-import com.bqy.common.user.service.IItemConfigService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 

@@ -7,6 +7,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 
 @SpringBootApplication(scanBasePackages = {"com.bqy"})
 @MapperScan("com.bqy.common.**.mapper")
+@ServletComponentScan
 public class MallchatCustomApplication {
 
     public static void main(String[] args) {
