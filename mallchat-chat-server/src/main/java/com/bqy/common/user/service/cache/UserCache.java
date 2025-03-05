@@ -100,4 +100,11 @@ public class UserCache {
         }
         return map;
     }
+
+    public void offLine(Long id, Date lastOptTime) {
+        String onlineKey = RedisKey.ONLINE_UID_ZET;
+        String offlineKey = RedisKey.OFFLINE_UID_ZET;
+        RedisUtils.zRemove(onlineKey,id);
+        RedisUtils.zAdd(offlineKey,id,lastOptTime.getTime());
+    }
 }

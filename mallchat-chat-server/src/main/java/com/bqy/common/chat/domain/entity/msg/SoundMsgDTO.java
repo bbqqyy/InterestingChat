@@ -20,7 +20,7 @@ import java.io.Serializable;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SoundMsgDTO extends com.bqy.mallchat.common.chat.domain.entity.msg.BaseFileDTO implements Serializable {
+public class SoundMsgDTO extends BaseFileDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty("时长（秒）")

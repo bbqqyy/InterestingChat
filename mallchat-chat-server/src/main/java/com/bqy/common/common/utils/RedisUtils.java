@@ -35,9 +35,15 @@ public class RedisUtils {
                     "  return tonumber(redis.call('INCR',key)) \n" +
                     "end ";
 
-    public static Long inc(String key, int time, TimeUnit unit) {
+    public static Integer inc(String key, int time, TimeUnit unit) {
         RedisScript<Long> redisScript = new DefaultRedisScript<>(LUA_INCR_EXPIRE, Long.class);
-        return stringRedisTemplate.execute(redisScript, Collections.singletonList(key), String.valueOf(unit.toSeconds(time)));
+        Long result =  stringRedisTemplate.execute(redisScript, Collections.singletonList(key), String.valueOf(unit.toSeconds(time)));
+        try {
+            return Integer.parseInt(result.toString());
+        } catch (Exception e) {
+            RedisUtils.del(key);
+            throw e;
+        }
     }
 
     public static Long ZSetGet(String key) {

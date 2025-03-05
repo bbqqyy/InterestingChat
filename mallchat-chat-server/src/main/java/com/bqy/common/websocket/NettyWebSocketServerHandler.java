@@ -31,7 +31,7 @@ public class NettyWebSocketServerHandler extends SimpleChannelInboundHandler<Tex
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        userOffLine(ctx.channel());
+        userOffLine(ctx);
     }
 
     @Override
@@ -50,14 +50,14 @@ public class NettyWebSocketServerHandler extends SimpleChannelInboundHandler<Tex
             if(event.state()== IdleState.READER_IDLE){
                 System.out.println("读空闲");
                 //下线
-                userOffLine(ctx.channel());
+                userOffLine(ctx);
             }
         }
     }
 
-    private void userOffLine(Channel channel) {
-        webSocketService.offLine(channel);
-        channel.close();
+    private void userOffLine(ChannelHandlerContext ctx) {
+        webSocketService.removed(ctx.channel());
+        ctx.channel().close();
 
     }
 

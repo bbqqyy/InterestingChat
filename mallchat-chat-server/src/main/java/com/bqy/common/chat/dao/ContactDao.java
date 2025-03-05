@@ -13,6 +13,7 @@ import com.bqy.common.common.domain.vo.resp.CursorPageBaseResp;
 import com.bqy.common.common.utils.CursorUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -76,5 +77,9 @@ public class ContactDao extends ServiceImpl<ContactMapper, Contact> {
             return this.remove(lambdaQueryWrapper);
         }
         return false;
+    }
+
+    public void refreshOrCreateActiveTime(Long roomId, List<Long> memberUidList, Long msgId, Date createTime) {
+        baseMapper.refreshOrCreateActiveTime(roomId,memberUidList,msgId,createTime);
     }
 }

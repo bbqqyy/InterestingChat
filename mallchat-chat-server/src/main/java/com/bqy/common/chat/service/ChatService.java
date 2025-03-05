@@ -3,6 +3,7 @@ package com.bqy.common.chat.service;
 import com.bqy.common.chat.domain.dto.MsgReadInfoDTO;
 import com.bqy.common.chat.domain.entity.Message;
 import com.bqy.common.chat.domain.vo.req.*;
+import com.bqy.common.chat.domain.vo.resp.ChatMemberStatisticResp;
 import com.bqy.common.chat.domain.vo.resp.ChatMessageReadResp;
 import com.bqy.common.chat.domain.vo.resp.ChatMessageResp;
 import com.bqy.common.common.domain.vo.resp.CursorPageBaseResp;
@@ -32,4 +33,6 @@ public interface ChatService {
     void msgRead(Long uid, ChatMessageMemberReq req);
 
     CursorPageBaseResp<ChatMemberResp> getMemberPage(List<Long> memberUidList, MemberReq memberReq);
+
+    ChatMemberStatisticResp getMemberStatistic();
 }

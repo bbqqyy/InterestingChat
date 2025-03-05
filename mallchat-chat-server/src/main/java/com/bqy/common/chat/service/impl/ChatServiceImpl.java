@@ -14,6 +14,7 @@ import com.bqy.common.chat.domain.enums.MessageMarkActTypeEnum;
 import com.bqy.common.chat.domain.enums.MessageMarkTypeEnum;
 import com.bqy.common.chat.domain.enums.MessageTypeEnum;
 import com.bqy.common.chat.domain.vo.req.*;
+import com.bqy.common.chat.domain.vo.resp.ChatMemberStatisticResp;
 import com.bqy.common.chat.domain.vo.resp.ChatMessageReadResp;
 import com.bqy.common.chat.domain.vo.resp.ChatMessageResp;
 import com.bqy.common.chat.service.ChatService;
@@ -39,6 +40,7 @@ import com.bqy.common.user.domain.entity.User;
 import com.bqy.common.user.domain.enums.NormalOrNoEnum;
 import com.bqy.common.user.domain.enums.RoleEnum;
 import com.bqy.common.user.service.IRoleService;
+import com.bqy.common.user.service.cache.UserCache;
 import com.bqy.common.websocket.domain.vo.resp.ChatMemberResp;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -78,6 +80,8 @@ public class ChatServiceImpl implements ChatService {
     private ContactService contactService;
     @Resource
     private RoomGroupDao roomGroupDao;
+    @Resource
+    private UserCache userCache;
     @Override
     public CursorPageBaseResp<ChatMessageResp> getMsgPage(Long receiveUid, ChatMessagePageReq req) {
         Long lastMsgId = getLastMsgId(req.getRoomId(),receiveUid);
@@ -203,6 +207,15 @@ public class ChatServiceImpl implements ChatService {
         Map<Long,Integer> uidMapRole = groupMemberDao.getMemberMapRole(roomGroup.getId(),uidList);
         resultList.forEach(member->member.setRoleId(uidMapRole.get(member.getUid())));
         return new CursorPageBaseResp<>(ChatMemberHelper.generateCursor(chatActiveStatusEnum,timeCursor),isLast,resultList);
+    }
+
+    @Override
+    public ChatMemberStatisticResp getMemberStatistic() {
+        System.out.println(Thread.currentThread().getName());
+        Long onlineNum = userCache.getOnlineNum();
+        ChatMemberStatisticResp chatMemberStatisticResp = new ChatMemberStatisticResp();
+        chatMemberStatisticResp.setOnlineNum(onlineNum);
+        return chatMemberStatisticResp;
     }
 
     private void checkRecallMessage(Long uid, Message message) {

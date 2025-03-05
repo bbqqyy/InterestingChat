@@ -1,6 +1,10 @@
 package com.bqy.common.common.constant;
 
 public class RedisKey {
+    /**
+     * 保存Open id
+     */
+    public static final String OPEN_ID_STRING = "openid:%s";
     private static final String BASE_KEY = "mallchat:chat";
     public static final String REDIS_KEY = "userToke:uid_%d";
     public static final String USER_MODIFY_STRING = "userModify:uid_%d";
@@ -16,6 +20,10 @@ public class RedisKey {
      * 在线用户列表
      */
     public static final String ONLINE_UID_ZET = "online";
+    /**
+     * 离线用户列表
+     */
+    public static final String OFFLINE_UID_ZET = "offline";
     /**
      * 热门房间列表
      */

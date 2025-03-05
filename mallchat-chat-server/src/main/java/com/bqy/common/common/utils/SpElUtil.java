@@ -28,4 +28,8 @@ public class SpElUtil {
 
 
     }
+
+    public static String getMethodKey(Method method) {
+        return method.getDeclaringClass()+"#"+method.getName();
+    }
 }
